@@ -47,5 +47,5 @@ https://github.com/vitor-mendess/sprint03_hc
 ---
 
 ## 🎥 Link do Vídeo no YouTube
-[https://www.youtube.com/watch?v=SEU_LINK_DO_VIDEO](https://www.youtube.com/watch?v=SEU_LINK_DO_VIDEO)
+https://youtu.be/WZtMTuw-jyQ
 

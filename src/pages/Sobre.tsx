@@ -63,7 +63,7 @@ export default function Sobre() {
           </h2>
           <p className="leading-relaxed">
             O desenvolvimento foi realizado pelos alunos da turma{" "}
-            <strong>1TDS - Fevereiro</strong>, utilizando tecnologias modernas
+            <strong>1TDSA </strong>, utilizando tecnologias modernas
             como <strong>React, Vite, TailwindCSS e React Router</strong>, além
             de boas práticas de UX/UI.
           </p>
