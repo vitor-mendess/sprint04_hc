@@ -18,7 +18,7 @@ Integração do front-end React com o backend Java (API REST).
 
 
 ## 🌐 Link do GitHub
-https://github.com/vitor-mendess/sprint03_hc
+https://github.com/vitor-mendess/sprint04_hc
 
 ---
 
