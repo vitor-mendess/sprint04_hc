@@ -23,5 +23,5 @@ https://github.com/vitor-mendess/sprint03_hc
 ---
 
 ## 🎥 Link do Vídeo no YouTube
-https://youtu.be/WZtMTuw-jyQ
+https://youtu.be/kcESwAdqhL8
 
