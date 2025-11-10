@@ -1,9 +1,27 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import { get } from "../services/api"
+
+// 👉 Exemplo de tipo para dados vindos da API Java (ajuste conforme seu backend)
+type Paciente = {
+  id: number
+  nome: string
+  email: string
+}
 
 export default function Home() {
+  const [pacientes, setPacientes] = useState<Paciente[]>([])
+  const [erro, setErro] = useState<string>("")
+
+  // ✅ Quando a página carregar, busca os dados da API Java
+  useEffect(() => {
+    get<Paciente[]>("/api/pacientes")
+      .then(setPacientes)
+      .catch((e) => setErro(e.message))
+  }, [])
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       {/* HERO */}
       <section className="bg-blue-700 text-white text-center py-16">
         <h1 className="text-3xl md:text-5xl font-bold mb-6">
@@ -26,11 +44,10 @@ export default function Home() {
           Como funciona
         </h2>
         <p className="max-w-2xl mx-auto text-gray-600 mb-10">
-          Clique na parte onde você sente dor para podermos marcar um
-          atendimento para você. É simples, rápido e seguro.
+          Clique na parte onde você sente dor para podermos marcar um atendimento
+          para você. É simples, rápido e seguro.
         </p>
 
-        {/* Corpo humano sem ícone da mão */}
         <div className="flex justify-center">
           <div className="relative">
             <img
@@ -77,27 +94,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DEPOIMENTOS */}
+      {/* LISTA DE PACIENTES - Exemplo de integração com a API */}
       <section className="py-16 px-6 bg-gray-50 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-10">
-          O que dizem nossos pacientes
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+          Pacientes cadastrados (dados da API Java)
         </h2>
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <div className="bg-white p-6 rounded-xl shadow text-left">
-            <p className="text-gray-600 italic mb-4">
-              "Consegui agendar minha consulta em menos de 5 minutos, sem precisar
-              ligar para o hospital. Muito prático!"
-            </p>
-            <p className="font-semibold text-blue-700">Maria Souza</p>
+
+        {erro && <p className="text-red-600 mb-4">{erro}</p>}
+
+        {pacientes.length > 0 ? (
+          <div className="max-w-3xl mx-auto bg-white rounded-xl shadow p-6">
+            <ul className="divide-y">
+              {pacientes.map((p) => (
+                <li key={p.id} className="py-2 text-gray-700">
+                  <strong>{p.nome}</strong> — {p.email}
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="bg-white p-6 rounded-xl shadow text-left">
-            <p className="text-gray-600 italic mb-4">
-              "Achei ótimo o sistema, fácil de usar e bem rápido. Me ajudou
-              bastante!"
+        ) : (
+          !erro && (
+            <p className="text-gray-500">
+              Nenhum paciente cadastrado encontrado (verifique sua API Java).
             </p>
-            <p className="font-semibold text-blue-700">João Silva</p>
-          </div>
-        </div>
+          )
+        )}
       </section>
 
       {/* CONTATO */}
@@ -114,9 +135,8 @@ export default function Home() {
           </button>
         </Link>
       </section>
-
-      
     </div>
-  );
+  )
 }
+
 

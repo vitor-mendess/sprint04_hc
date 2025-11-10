@@ -1,27 +1,41 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { post } from "../services/api" // ✅ importa a função que fala com a API
 
 export default function Cadastro() {
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confirmarSenha, setConfirmarSenha] = useState("");
-  const navigate = useNavigate();
+  const [nome, setNome] = useState("")
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
+  const [confirmarSenha, setConfirmarSenha] = useState("")
+  const [mensagem, setMensagem] = useState("")
+  const [erro, setErro] = useState("")
+  const navigate = useNavigate()
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setErro("")
+    setMensagem("")
 
     if (senha !== confirmarSenha) {
-      alert("As senhas não coincidem!");
-      return;
+      setErro("As senhas não coincidem!")
+      return
     }
 
-    console.log("Cadastro:", { nome, email, senha });
-    // aqui você pode salvar no backend/localStorage
+    try {
+      // ✅ envia o cadastro para o backend Java (ajuste o endpoint conforme sua API)
+      await post("/api/pacientes", {
+        nome,
+        email,
+        senha,
+      })
 
-    // depois do cadastro, manda para a página inicial
-    navigate("/");
-  };
+      setMensagem("Usuário cadastrado com sucesso!")
+      setTimeout(() => navigate("/login"), 1500)
+    } catch (error: any) {
+      setErro("Erro ao cadastrar. Verifique o backend.")
+      console.error("Erro no cadastro:", error)
+    }
+  }
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -79,6 +93,10 @@ export default function Cadastro() {
             />
           </div>
 
+          {/* Mensagens de sucesso ou erro */}
+          {erro && <p className="text-red-600 text-center text-sm">{erro}</p>}
+          {mensagem && <p className="text-green-600 text-center text-sm">{mensagem}</p>}
+
           <button
             type="submit"
             className="w-full bg-blue-600 text-white rounded-lg py-2 font-semibold hover:bg-blue-700 transition"
@@ -88,6 +106,7 @@ export default function Cadastro() {
         </form>
       </div>
     </section>
-  );
+  )
 }
+
 
